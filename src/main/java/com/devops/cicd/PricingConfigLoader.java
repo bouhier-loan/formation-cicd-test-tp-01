@@ -21,7 +21,8 @@ public class PricingConfigLoader {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return new PricingConfig(Double.valueOf(required(prop, "vatRate")), (Double.valueOf(required(prop, "freeShippingThreshold"))));
+        return new PricingConfig(Double.parseDouble(required(prop, "vatRate")),
+                (Double.parseDouble(required(prop, "freeShippingThreshold"))));
     }
 
     private String required(Properties props, String key) {
