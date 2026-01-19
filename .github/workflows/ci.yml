@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - lchaumont
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build & Run Tests Password Policy
+        run: mvn test -Dtest=com.devops.cicd.PasswordPolicyTest
+
+      - name: Build & Run Tests Pricing
+        run: mvn test -Dtest=com.devops.cicd.PricingServiceTest
+
+  integration-tests:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build & Run Tests Integrations
+        run: mvn test -Dtest=com.devops.cicd.PricingIntegrationTest
